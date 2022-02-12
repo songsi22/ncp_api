@@ -1,5 +1,4 @@
-import publicIP
-
+import getNo as gn
 
 class svcoperation:
     def __init__(self):
@@ -8,8 +7,6 @@ class svcoperation:
 
     def svcinstanceno(self):
         parameter = ""
-        a = publicIP.publicIP()
-        a.getServerInstanceNo()
         make_list = []
         noList = ""
         while True:
@@ -17,7 +14,7 @@ class svcoperation:
             if svc == '':
                 break;
             else:
-                make_list.append(a.getServerInstanceNo(svc))
+                make_list.append(str(gn.getServerInstanceNo(svc)))
         for i, list in enumerate(make_list):
             noList += "serverInstanceNoList." + str(i + 1) + "=" + list + '&'
         if len(make_list):
