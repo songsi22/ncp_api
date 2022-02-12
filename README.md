@@ -7,9 +7,9 @@ NCP 공공존
 
 public IP associate의 경우에는 IP와 VM 모두를 사용해야 합니다.
 
-A1  B1 
-IP	VM name
-123.123.123.123	test-ap
-12.12.12.12	test-db
+A1  B1</br>
+IP	VM name</br>
+123.123.123.123	test-ap</br>
+12.12.12.12	test-db</br>
 
 와 같은 상태(즉 하나의 열을 탭으로 인식하는)에서 복사해서 붙여넣기 사용 가능
