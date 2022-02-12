@@ -1,6 +1,4 @@
-import makesig
-import apikey
-
+import getNo
 
 class publicIP:
     def __init__(self):
@@ -16,7 +14,7 @@ class publicIP:
             if ip == '':
                 break;
             else:
-                make_list.append(self.getPublicIpNo(ip))
+                make_list.append(getNo.getPublicIpNo(ip))
         for i, list in enumerate(make_list):
             noList += "publicIpInstanceNoList." + str(i + 1) + "=" + list + '&'
         if len(make_list):
@@ -41,8 +39,8 @@ class publicIP:
             if ipnserver[0] == '' or ipnserver[1] == '':
                 break;
             else:
-                pubipNo = self.getPublicIpNo(ipnserver[0])
-                serverNo = self.getServerInstanceNo(ipnserver[1])
+                pubipNo = getNo.getPublicIpNo(ipnserver[0])
+                serverNo = getNo.getServerInstanceNo(ipnserver[1])
                 ipnserveruri = "publicIpInstanceNo=" + str(pubipNo).strip() + "&" \
                                                                               "serverInstanceNo=" + str(
                     serverNo).strip() + "&" + self.response_json
@@ -57,22 +55,7 @@ class publicIP:
             if ip == '':
                 break;
             else:
-                disas_uri = uri + "publicIpInstanceNo=" + self.getPublicIpNo(ip) + "&" + self.response_json
+                disas_uri = uri + "publicIpInstanceNo=" + str(getNo.getPublicIpNo(ip)) + "&" + self.response_json
                 make_list.append(disas_uri)
         return make_list
 
-    def getPublicIpNo(self, ip=""):
-        if len(ip) != 0:
-            get_pubip_uri = "/server/v2/getPublicIpInstanceList?searchFilterName=publicIp&searchFilterValue=" \
-                            + ip + '&' + self.response_json
-            re = makesig.send(apikey.G_access_key, apikey.G_secret_key, get_pubip_uri, self.API_URL)
-            getPubIpNo = re["getPublicIpInstanceListResponse"]["publicIpInstanceList"][0]["publicIpInstanceNo"]
-            return getPubIpNo
-
-    def getServerInstanceNo(self, servername=""):
-        if len(servername) != 0:
-            get_server_uri = "/server/v2/getServerInstanceList?searchFilterName=serverName&searchFilterValue=" \
-                             + servername + "&" + self.response_json
-            re = makesig.send(apikey.G_access_key, apikey.G_secret_key, get_server_uri, self.API_URL)
-            get_server_no = re["getServerInstanceListResponse"]["serverInstanceList"][0]["serverInstanceNo"]
-            return get_server_no
