@@ -1,8 +1,11 @@
-import publicIP as pip
+import apikey
+import publicip as pip
 import svcoperation as svop
-
+import makesig
+API_URL = "https://ncloud.apigw.gov-ntruss.com"
 a = pip.publicIP()
 b = svop.svcoperation()
+
 typeoper = input("type oper: ")
 if typeoper == "pubip":
     while True:
@@ -27,6 +30,8 @@ if typeoper == "pubip":
                 for i in a.disassociate():
                     print(i)
                 print("disassociate done")
+            elif oper == 'exit' or oper == 'quit':
+                break;
         except Exception as e:
             print("error: ", e)
 elif typeoper == "svcoper":
@@ -34,12 +39,19 @@ elif typeoper == "svcoper":
         try:
             oper = input('Operate: ')
             if oper == 'status':
-                print(b.svcstatus())
+                nolist = b.svcstatus()
+                re = makesig.send(apikey.G_access_key,apikey.G_secret_key,nolist,API_URL)
+                re = re["getServerInstanceListResponse"]
+                print("return Message: "+re["returnMessage"],"total count: "+str(re["totalRows"]))
+                for i in re["serverInstanceList"]:
+                    print(i["serverName"],i["serverInstanceStatus"]["codeName"])
             elif oper == 'stop':
                 print(b.svcstop())
             elif oper == 'restart':
                 print(b.svcrestart())
             elif oper == 'start':
                 print(b.svcstart())
+            elif oper == 'exit' or oper == 'quit':
+                break;
         except Exception as e:
             print("error: ", e)

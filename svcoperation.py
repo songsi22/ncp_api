@@ -14,7 +14,7 @@ class svcoperation:
             if svc == '':
                 break;
             else:
-                make_list.append(str(gn.getServerInstanceNo(svc)))
+                make_list.append(str(gn.getserverinstanceno(svc)))
         for i, list in enumerate(make_list):
             noList += "serverInstanceNoList." + str(i + 1) + "=" + list + '&'
         if len(make_list):
