@@ -12,6 +12,7 @@ class publicip:
         while True:
             ip = input().strip()
             if ip == '':
+                print('ing..wait please')
                 break;
             else:
                 make_list.append(getNo.getpublicipno(ip))

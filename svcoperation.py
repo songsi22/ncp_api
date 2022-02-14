@@ -12,6 +12,7 @@ class svcoperation:
         while True:
             svc = input().strip()
             if svc == '':
+                print('ing..wait please')
                 break;
             else:
                 make_list.append(str(gn.getserverinstanceno(svc)))

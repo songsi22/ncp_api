@@ -3,7 +3,7 @@ import publicip as pip
 import svcoperation as svop
 import makesig
 API_URL = "https://ncloud.apigw.gov-ntruss.com"
-a = pip.publicIP()
+a = pip.publicip()
 b = svop.svcoperation()
 
 typeoper = input("type oper: ")
