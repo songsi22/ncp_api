@@ -41,17 +41,26 @@ elif typeoper == "svcoper":
             if oper == 'status':
                 nolist = b.svcstatus()
                 re = makesig.send(apikey.G_access_key,apikey.G_secret_key,nolist,API_URL)
-                re = re["getServerInstanceListResponse"]
-                print("return Message: "+re["returnMessage"],"total count: "+str(re["totalRows"]))
-                for i in re["serverInstanceList"]:
+                re1 = re["getServerInstanceListResponse"]
+                print("return Message: "+re1["returnMessage"],"total count: "+str(re1["totalRows"]))
+                for i in re1["serverInstanceList"]:
                     print(i["serverName"],i["serverInstanceStatus"]["codeName"])
             elif oper == 'stop':
-                print(b.svcstop())
+                nolist = b.svcstop()
+                re = makesig.send(apikey.G_access_key, apikey.G_secret_key, nolist, API_URL)
+                re1 = re["stopServerInstancesResponse"]
+                print("return Message: " + re1["returnMessage"], "total count: " + str(re1["totalRows"]))
+                # print(b.svcstop())
             elif oper == 'restart':
                 print(b.svcrestart())
             elif oper == 'start':
-                print(b.svcstart())
+                nolist = b.svcstart()
+                re = makesig.send(apikey.G_access_key, apikey.G_secret_key, nolist, API_URL)
+                re1 = re["startServerInstancesResponse"]
+                print("return Message: " + re1["returnMessage"], "total count: " + str(re1["totalRows"]))
+                # print(b.svcstart())
             elif oper == 'exit' or oper == 'quit':
                 break;
         except Exception as e:
+            print(re)
             print("error: ", e)
