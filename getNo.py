@@ -2,6 +2,7 @@ import makesig
 import apikey
 
 API_URL = "https://ncloud.apigw.gov-ntruss.com"
+# API_URL = "https://ncloud.apigw.ntruss.com"
 response_json = "responseFormatType=json"
 
 def getpublicipno(ip=""):

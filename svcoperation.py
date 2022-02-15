@@ -3,6 +3,7 @@ import getNo as gn
 class svcoperation:
     def __init__(self):
         self.API_URL = "https://ncloud.apigw.gov-ntruss.com"
+        # self.API_URL = "https://ncloud.apigw.ntruss.com"
         self.response_json = "responseFormatType=json"
 
     def svcinstanceno(self):
@@ -12,7 +13,7 @@ class svcoperation:
         while True:
             svc = input().strip()
             if svc == '':
-                print('ing..wait please')
+                # print('ing..wait please')
                 break;
             else:
                 make_list.append(str(gn.getserverinstanceno(svc)))

@@ -3,6 +3,7 @@ import getNo
 class publicip:
     def __init__(self):
         self.API_URL = "https://ncloud.apigw.gov-ntruss.com"
+        # self.API_URL = "https://ncloud.apigw.ntruss.com"
         self.response_json = "responseFormatType=json"
 
     def delete(self):
@@ -12,7 +13,7 @@ class publicip:
         while True:
             ip = input().strip()
             if ip == '':
-                print('ing..wait please')
+                # print('ing..wait please')
                 break;
             else:
                 make_list.append(getNo.getpublicipno(ip))
