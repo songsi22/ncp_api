@@ -55,8 +55,7 @@ class svcoperation:
     def svccreate(self, name):
         MAXVM = 20
         uri = "/server/v2/createServerInstances?"
-        name_split = name.split('-')
-        name_split_count = len(name_split)
+
         def create_uri(name):
             name_split = name.split('-')
             name_split_count = len(name_split)
@@ -65,177 +64,103 @@ class svcoperation:
                 uri3 = []
                 for i in self.json_data['types']:
                     acglist = ""
-                    if "ap" == i['type']:
-                        for index, data in enumerate(i['acg']):
-                            acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                        uri2 = uri + "serverName=" + name + "-ap-&memberServerImageNo=" + i['msino'] + "&serverProductCode=" \
-                              + i['spc'] +"&serverCreateCount=" + str(i['count']) + "&serverCreateStartNo=" + i['scsn'] + "&loginKeyName=keris-lms" \
-                        +"&isProtectServerTermination=True" + "&initScriptNo="+ str(i['init']) + acglist +  '&' +self.response_json
-                        uri3.append(uri2)
-                        # uri = uriMCreate(context.args[0], i['type'], '63910', 'SPSVRSTAND000003', str(i['count']))
-                    elif "api" == i['type']:
-                        for index, data in enumerate(i['acg']):
-                            acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                        uri2 = uri + "serverName=" + name + "-api-&memberServerImageNo=" + i['msino'] + "&serverProductCode=" \
-                              + i['spc'] +"&serverCreateCount=" + str(i['count']) + "&serverCreateStartNo=" + i['scsn'] + "&loginKeyName=keris-lms" \
-                        +"&isProtectServerTermination=True" + "&initScriptNo="+ str(i['init']) + acglist +  '&' +self.response_json
-                        # uri = uriMCreate(context.args[0], i['type'], '63910', 'SPSVRSTAND000003', str(i['count']))
-                        uri3.append(uri2)
-                    elif "stmg" == i['type']:
-                        for index, data in enumerate(i['acg']):
-                            acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                        uri2 = uri + "serverName=" + name + "-stmg-&memberServerImageNo=" + i['msino'] + "&serverProductCode=" + i['spc'] \
-                        +"&serverCreateCount=" + str(i['count']) + "&serverCreateStartNo=" + i['scsn'] + "&loginKeyName=keris-lms" \
-                        +"&isProtectServerTermination=True" + "&initScriptNo="+ str(i['init']) + acglist +  '&' +self.response_json
-                        uri3.append(uri2)
-                        # uri = uriCreate(context.args[0], i['type'], '63910', 'SPSVRSTAND000003', )
-                    # if "stream" == i['type']:
-                    #     for index, data in enumerate(i['acg']):
-                    #         acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    #     uri2 = uri + "serverName=" + name + "-stream-&memberServerImageNo=" + i['msino'] + "&serverProductCode=" + i['spc'] \
-                    #     +"&serverCreateCount=" + str(i['count']) + "&serverCreateStartNo=" + i['scsn'] + "&loginKeyName=keris-lms" \
-                    #     +"&isProtectServerTermination=True" + "&initScriptNo="+ str(i['init']) + acglist +  '&' +self.response_json
-                    #     # uri = uriMCreate(context.args[0], i['type'], '63910', 'SPSVRSTAND000003', str(i['count']))
-                    #     uri3.append(uri2)
-                    elif "redis" == i['type']:
-                        for index, data in enumerate(i['acg']):
-                            acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                        uri2 = uri + "serverName=" + name + "-redis-&memberServerImageNo=" + i['msino'] + "&serverProductCode=" + i['spc'] \
-                        +"&serverCreateCount=" + str(i['count']) + "&serverCreateStartNo=" + i['scsn'] + "&loginKeyName=keris-lms" \
-                        +"&isProtectServerTermination=True" + "&initScriptNo="+ str(i['init']) + acglist +  '&' +self.response_json
-                        # uri = uriMCreate(context.args[0], i['type'], '63910', 'SPSVRSTAND000003', str(i['count']))
-                        uri3.append(uri2)
-                    elif "mv" == i['type']:
+                    if "mv" == i['type']:
                         totalVM = int(i['count'])
                         startNo = 1
                         for index, data in enumerate(i['acg']):
                             acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
                         while totalVM > MAXVM:
                             if startNo == 1:
-                                uri2 = uri + "serverName="+name+"-mv-&memberServerImageNo="+i['msino']+"&serverProductCode=" +i['spc'] \
-                                + "&serverCreateCount=" + str(MAXVM) + "&serverCreateStartNo=00" + str(startNo) + "&loginKeyName=keris-lms" \
-                                + "&isProtectServerTermination=True" + "&initScriptNo=" + str(i['init']) + acglist +  '&' +self.response_json
+                                uri2 = uri + "serverName=" + name + "-mv-&memberServerImageNo=" + \
+                                       i['msino'] + "&serverProductCode=" + i['spc'] + \
+                                       "&serverCreateCount=" + str(MAXVM) + \
+                                       "&serverCreateStartNo=00" + str(startNo) + \
+                                       "&loginKeyName=keris-lms" + \
+                                       "&isProtectServerTermination=True" + \
+                                       "&initScriptNo=" + str(i['init']) + \
+                                       acglist + '&' + self.response_json
                                 uri3.append(uri2)
                             else:
-                                uri2 = uri + "serverName=" + name + "-mv-&memberServerImageNo=" + i['msino'] + "&serverProductCode=" + i['spc'] \
-                                + "&serverCreateCount=" + str(MAXVM) + "&serverCreateStartNo=0" + str(startNo) + "&loginKeyName=keris-lms" \
-                                + "&isProtectServerTermination=True" + "&initScriptNo=" + str(i['init']) + acglist + '&' + self.response_json
+                                uri2 = uri + "serverName=" + name + "-mv-&memberServerImageNo=" + \
+                                       i['msino'] + "&serverProductCode=" + i['spc'] + \
+                                       "&serverCreateCount=" + str(MAXVM) + \
+                                       "&serverCreateStartNo=0" + str(startNo) + \
+                                       "&loginKeyName=keris-lms" + \
+                                       "&isProtectServerTermination=True" + \
+                                       "&initScriptNo=" + str(i['init']) + \
+                                       acglist + '&' + self.response_json
                                 uri3.append(uri2)
                             startNo += MAXVM
                             totalVM -= MAXVM
                             if totalVM < MAXVM:
                                 uri2 = uri + "serverName=" + name + "-mv-&memberServerImageNo=" + i[
-                                    'msino'] + "&serverProductCode=" + i['spc'] \
-                                       + "&serverCreateCount=" + str(MAXVM) + "&serverCreateStartNo=0" + str(
-                                    startNo) + "&loginKeyName=keris-lms" \
-                                       + "&isProtectServerTermination=True" + "&initScriptNo=" + str(
-                                    i['init']) + acglist + '&' + self.response_json
+                                    'msino'] + "&serverProductCode=" + i['spc'] + \
+                                       "&serverCreateCount=" + str(MAXVM) + \
+                                       "&serverCreateStartNo=0" + str(startNo) + "&loginKeyName=keris-lms" + \
+                                       "&isProtectServerTermination=True" + \
+                                       "&initScriptNo=" + str(i['init']) + \
+                                       acglist + '&' + self.response_json
                                 uri3.append(uri2)
-                    #     urilist.append(uri2)
+                    else:
+                        for index, data in enumerate(i['acg']):
+                            acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
+                        uri2 = uri + "serverName=" + name + "-" + i['type'] + "-" + \
+                               "&memberServerImageNo=" + i['msino'] + "&serverProductCode=" + \
+                               i['spc'] + "&serverCreateCount=" + str(i['count']) + \
+                               "&serverCreateStartNo=" + i['scsn'] + \
+                               "&loginKeyName=keris-lms" + \
+                               "&isProtectServerTermination=True" + \
+                               "&initScriptNo=" + str(i['init']) + \
+                               acglist + '&' + self.response_json
+                        uri3.append(uri2)
             elif name_split_count == 2:
                 if "ap" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][0]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "-&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&serverCreateCount=" + str(type_info_list['count']) + "&serverCreateStartNo=" + type_info_list['scsn'] + "&loginKeyName=keris-lms" \
-                    +"&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
-
+                    num = 0
                 elif "stream" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][1]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "-&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&serverCreateCount=" + str(type_info_list['count']) + "&serverCreateStartNo=" + type_info_list['scsn'] + "&loginKeyName=keris-lms" \
-                    +"&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
-
+                    num = 1
                 elif "api" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][2]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "-&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&serverCreateCount=" + str(type_info_list['count']) + "&serverCreateStartNo=" + type_info_list['scsn'] + "&loginKeyName=keris-lms" \
-                    +"&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
-                    print('api')
+                    num = 2
                 elif "stmg" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][3]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "-&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&serverCreateCount=" + str(type_info_list['count']) + "&serverCreateStartNo=" + type_info_list['scsn'] + "&loginKeyName=keris-lms" \
-                    +"&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
-                    print('stmg')
+                    num = 3
                 elif "redis" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][4]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "-&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&serverCreateCount=" + str(type_info_list['count']) + "&serverCreateStartNo=" + type_info_list['scsn'] + "&loginKeyName=keris-lms" \
-                    +"&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
-                    print('redis')
+                    num = 4
                 elif "mv" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][5]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "-&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&serverCreateCount=" + str(type_info_list['count']) + "&serverCreateStartNo=" + type_info_list['scsn'] + "&loginKeyName=keris-lms" \
-                    +"&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
-                    print('mv')
+                    num = 5
+                type_info_list = self.json_data['types'][num]
+                acglist = ""
+                for index, data in enumerate(type_info_list['acg']):
+                    acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
+                uri3 = uri + "serverName=" + name + "-" + type_info_list['type'] + "-" + \
+                       "&memberServerImageNo=" + type_info_list['msino'] + \
+                       "&serverProductCode=" + type_info_list['spc'] + \
+                       "&serverCreateCount=" + str(type_info_list['count']) + \
+                       "&serverCreateStartNo=" + type_info_list['scsn'] + \
+                       "&loginKeyName=keris-lms" + "&isProtectServerTermination=True" + \
+                       "&initScriptNo=" + str(type_info_list['init']) + \
+                       acglist + '&' + self.response_json
 
             elif name_split_count == 3:
                 if "ap" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][0]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&loginKeyName=keris-lms&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
-
+                    num = 0
                 elif "stream" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][1]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&loginKeyName=keris-lms&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
+                    num = 1
                 elif "api" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][2]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&loginKeyName=keris-lms&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
+                    num = 2
                 elif "stmg" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][3]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&loginKeyName=keris-lms&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
+                    num = 3
                 elif "redis" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][4]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&loginKeyName=keris-lms&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&'
+                    num = 4
                 elif "mv" == name_split[1]:
-                    acglist = ""
-                    type_info_list = self.json_data['types'][5]
-                    for index, data in enumerate(type_info_list['acg']):
-                        acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
-                    uri3 = uri + "serverName=" + name + "&memberServerImageNo=" + type_info_list['msino'] + "&serverProductCode=" + type_info_list['spc'] \
-                    +"&loginKeyName=keris-lms&isProtectServerTermination=True" + "&initScriptNo="+ str(type_info_list['init']) + acglist +  '&' +self.response_json
-            # print(uri)
+                    num = 5
+                type_info_list = self.json_data['types'][num]
+                acglist = ""
+                for index, data in enumerate(type_info_list['acg']):
+                    acglist += "&accessControlGroupConfigurationNoList." + str(index + 1) + "=" + str(data)
+                uri3 = uri + "serverName=" + name + "&memberServerImageNo=" + \
+                       type_info_list['msino'] + "&serverProductCode=" + \
+                       type_info_list['spc'] + "&loginKeyName=keris-lms" + \
+                       "&isProtectServerTermination=True" + "&initScriptNo=" + \
+                       str(type_info_list['init']) + acglist + '&' + self.response_json
             return uri3
 
         return create_uri(name)
-    # parameter = self.svcinstanceno()
-    # uri += parameter
-    # return uri
