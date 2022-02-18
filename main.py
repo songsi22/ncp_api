@@ -69,20 +69,6 @@ elif typeoper == "svcoper":
                 # re1 = re["startServerInstancesResponse"]
                 # print("return Message: " + re1["returnMessage"], "total count: " + str(re1["totalRows"]))
                 print(b.svcstart())
-            elif oper == 'create':
-                name=input("create for VM name: ")
-                uri=b.svccreate(name)
-                if isinstance(uri,list):
-                    for i in uri:
-                        print(i)
-                else:
-                    print(uri)
-                    # re = makesig.send(apikey.G_access_key,apikey.G_secret_key,uri,API_URL)
-                    # print(re)
-                    # print(aa)
-                print("create")
-            elif oper == 'delete':
-                print("delete")
             elif oper == 'exit' or oper == 'quit':
                 break;
         except Exception as e:
